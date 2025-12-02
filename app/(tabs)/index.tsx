@@ -1,31 +1,47 @@
-import { StyleSheet } from 'react-native';
+import { Button } from '@react-navigation/elements';
+import { useNavigation } from '@react-navigation/native';
+import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-navigation/native-stack';
+import * as React from 'react';
+import { Image, StyleSheet, View } from 'react-native';
+import TabDetailsScreen from './details';
+import TabTwoScreen from './two';
 
-import EditScreenInfo from '@/components/EditScreenInfo';
-import { Text, View } from '@/components/Themed';
+export type RootStackParamList = {
+  Home: undefined;
+  Two: undefined;
+  Details: undefined;
+};
 
-export default function TabOneScreen() {
+const RootStack = createNativeStackNavigator<RootStackParamList>();
+
+type TabOneScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Two'>;
+
+export default function AppNavigator() {
+  return (
+    <RootStack.Navigator initialRouteName="Home">
+      <RootStack.Screen name="Home" component={TabOneScreen} />
+      <RootStack.Screen name="Two" component={TabTwoScreen} />
+      <RootStack.Screen name="Details" component={TabDetailsScreen} />
+    </RootStack.Navigator>
+  );
+}
+
+export function TabOneScreen() {
+  const navigation = useNavigation<TabOneScreenNavigationProp>();
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/(tabs)/index.tsx" />
+      <Image
+        source={require("../../assets/images/splash-icon.png")}
+        style={{ width: 150, height: 150 }}
+      />
+      <Button onPress={() => navigation.navigate('Two')}>
+        Go to Details
+      </Button>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
+  container: { flex: 1, alignItems: 'center', justifyContent: 'center' },
 });

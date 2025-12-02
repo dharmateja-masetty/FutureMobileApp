@@ -2,13 +2,19 @@ import { StyleSheet } from 'react-native';
 
 import EditScreenInfo from '@/components/EditScreenInfo';
 import { Text, View } from '@/components/Themed';
+import { Button } from '@react-navigation/elements';
+import { useNavigation } from '@react-navigation/native';
 
 export default function TabTwoScreen() {
+  const navigation = useNavigation();
+  console.log("this is Two screen");
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Tab Two</Text>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
       <EditScreenInfo path="app/(tabs)/two.tsx" />
+      <Button onPress={() => navigation.goBack()} >goback</Button> 
     </View>
   );
 }
